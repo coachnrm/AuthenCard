@@ -1,0 +1,23 @@
+@page "/getalldoctor"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+@foreach (var item in doctors)
+{
+    <p>@item.name @item.licenseno</p>;
+}
+
+@code {
+    private string doctor;
+    private List<Doctor> doctors = new List<Doctor>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        doctors = await Http.GetFromJsonAsync<List<Doctor>>("http://localhost:5094/api/Hos/GetDoctor");
+    }
+
+
+
+}

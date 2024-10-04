@@ -35,7 +35,7 @@
         var username = InputValue1;
         var password = InputValue2;
         var client = new HttpClient();
-        var logins = await ServiceHelper2.GetLogin(username, password);
+        @* var logins = await ServiceHelper2.GetLogin(username, password);
         try
         {
             if(logins.passweb != null)
@@ -50,7 +50,27 @@
         catch (Exception e)
         {
             loadFailed = true;
+        } *@
+        var logins = await ServiceHelper2.PostLogin(username, password);
+        try
+        {
+            if(logins.passweb != null)
+            {
+               _navigationManager.NavigateTo("/");
+            }
+            else if (logins == null)
+            {
+                loadFailed = true;
+            }
+            else
+            {
+               loadFailed = true;
+            }
         }
+        catch (Exception e)
+        {
+            loadFailed = true;
+        } 
     }
     
 }

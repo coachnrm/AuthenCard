@@ -22,7 +22,7 @@
         <div class="row mb-3">
             <label class="col-md-4 col-form-label">pid</label>
             <div class="col-md-8">
-                <input id="pid" class="form-control" placeholder="@client.pid" @bind="ClaimData.pid">
+                <input class="form-control" @bind="ClaimData.pid">
                 <span class="text-danger">@Errors["pid"]?[0]</span>
             </div>
         </div>
@@ -47,7 +47,7 @@
          <div class="row mb-3">
             <label class="col-md-4 col-form-label">correlationId</label>
             <div class="col-md-8">
-                <input class="form-control" placeholder="@client.correlationId" @bind="ClaimData.correlationId">
+                <input class="form-control" @bind="ClaimData.correlationId">
                 <span class="text-danger">@Errors["correlationId"]?[0]</span>
             </div>
         </div>
@@ -97,6 +97,8 @@
     {  
         
         client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+        ClaimData.pid = client.pid;
+        ClaimData.correlationId = client.correlationId;
     }
 
 

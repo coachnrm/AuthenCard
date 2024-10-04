@@ -1,0 +1,382 @@
+@page "/getvisit"
+@rendermode InteractiveServer
+@using System.Globalization
+@using AuthenCard.Models
+@inject HttpClient Http
+
+<PageTitle>หน้าจอเปิด visit</PageTitle>
+
+<h1>หน้าจอเปิด visit</h1>
+
+<p>
+    <label>
+        HosGuid: 
+        <input @bind="HosGuid" style="width: 350px;" disabled/>
+    </label>
+</p>
+
+<p>
+    <label>
+        Vn: 
+        <input @bind="Vn" style="width: 350px;" disabled/>
+    </label>
+</p>
+
+<p>
+    <label>
+        Ovst_key: 
+        <input @bind="Ovst_key" style="width: 350px;" disabled/>
+    </label>
+</p>
+
+<p>
+    <label>
+        HN: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+
+<p>
+    <label>
+        AN: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+
+<p>
+    <label>
+        vstdate: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+
+<p>
+    <label>
+        vsttime: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+
+<p>
+    <label>
+        doctor: 
+        <input @bind="doctor" @oninput="OnInput" placeholder="กรุณากรอกชื่อแพทย์" style="width: 350px;"/>
+        @foreach (var person in doctors)
+        {
+            <p @onclick="() => SelectItem(person)">@person.name</p>
+        }
+    </label>
+</p>
+<p>
+    <label>
+        Hospmain: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Hospsub: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Oqueue: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Ovstist: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Ovstost: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Pttype: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Pttypeno: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Rfrics: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Rfrilct: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Rfrocs: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Rfrolct: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Spclty: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        RcptDisease: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Hcode: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        CurDep: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        CurDepBusy: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        LastDep: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        CurDepTime: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        RxQueue: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        DiagText: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        PtSubtype: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        MainDep: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        MainDepQueue: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        FinanceSummaryDate: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        VisitType: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        NodeId: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        ContractId: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Waiting: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        RfriIcd10: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        OReferNumber: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        HasInsurance: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        IReferNumber: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        ReferType: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        OReferDep: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Staff: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        CommandDoctor: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        SendPerson: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        PtPriority: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        FinanceLock: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        FinanceAlient: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        Oldcode: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        SignDoctor: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        AnonymousVisit: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        AnonymousVn: 
+        <input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        PtCapabilityTypeId: 
+        <Input style="width: 350px;"/>
+    </label>
+</p>
+<p>
+    <label>
+        AtHospital: 
+        <Input style="width: 350px;"/>
+    </label>
+</p>
+
+@foreach (var item in doctors)
+{
+    <p>@item.name @item.licenseno</p>;
+}
+
+@code {
+
+    private string HosGuid = "{"+Guid.NewGuid().ToString()+"}";
+    private string Ovst_key = "9564AB24894CF188CC14EB2D81857600";
+    private string Vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH"));
+    private string doctor;
+    private List<Doctor> doctors = new();
+    
+     private async Task OnInput(ChangeEventArgs e)
+    {
+        doctor = e.Value?.ToString();
+        doctors = await GetItemsAsync(doctor);
+    }
+
+     private async Task<List<Doctor>> GetItemsAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetDoctorBySearchName?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Doctor>>();
+    }
+
+    private void SelectItem(Doctor person)
+    {
+        doctor = person.name;
+        doctors.Clear();
+    }
+
+
+
+}

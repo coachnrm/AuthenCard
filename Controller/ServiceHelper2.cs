@@ -25,5 +25,30 @@ namespace AuthenCard.Controller
         }
         else return new LoginHos();
         }
+
+        public async static Task<LoginHos> PostLogin(string username, string password)
+        {
+           var param = new Dictionary<string, string>();
+           param.Add("uname", username);
+           param.Add("para", password);
+
+           var content = new FormUrlEncodedContent(param);
+
+           var clientData = GetClientData();
+           var response = await clientData.PostAsync("api/Hos/PostUser", content);
+           if (response.StatusCode == System.Net.HttpStatusCode.OK)
+           {
+                var json = await response.Content.ReadAsStringAsync();
+                return JObject.Parse(json).ToObject<LoginHos>();
+           }
+           else return null;
+        }
+
+         private static HttpClient GetClientData()
+        {
+            var clientData = new HttpClient();
+            clientData.BaseAddress = DataBaseAddress;
+            return clientData;
+        }
     }
 }
