@@ -26,6 +26,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXENpZENsYWltLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/AuthenCard/Components/Pages/Clients/GetVisit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldFZpc2l0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/AuthenCard/Components/Pages/Clients/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEluZGV4LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
