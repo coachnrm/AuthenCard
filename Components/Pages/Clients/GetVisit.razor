@@ -59,20 +59,32 @@
 
 <p>
     <label>
-        doctor: 
-        <input style="width: 350px;"/>
+        แพทย์: 
+        <input @bind="doctor" @oninput="OnInputDoctor" placeholder="กรุณากรอกชื่อแพทย์" style="width: 350px;"/>
+        @foreach (var person in doctors)
+        {
+            <p @onclick="() => SelectItem(person)">@person.name</p>
+        }
     </label>
 </p>
 <p>
     <label>
-        Hospmain: 
-        <input style="width: 350px;"/>
+        สถานพยาบาล: 
+        <input @bind="hospmain" @oninput="OnInputHospmain" placeholder="กรุณากรอกชื่อสถานพยาบาลหลัก" style="width: 350px;"/>
+        @foreach (var mainhos in hosnames)
+        {
+            <p @onclick="() => SelectMainHos(mainhos)">@mainhos.name</p>
+        }
     </label>
 </p>
 <p>
     <label>
-        Hospsub: 
-        <input style="width: 350px;"/>
+        สถานพยาบาลรอง: 
+        <input @bind="hospsub" @oninput="OnInputSubHos" placeholder="กรุณากรอกชื่อสถานพยาบาลหลัก" style="width: 350px;"/>
+        @foreach (var subhos in hossubnames)
+        {
+            <p @onclick="() => SelectSubHos(subhos)">@subhos.name</p>
+        }
     </label>
 </p>
 <p>
@@ -340,9 +352,9 @@
     </label>
 </p>
 
-@foreach (var item in Doctors)
+@foreach (var item in doctors)
 {
-    @item.name @item.licenseno;
+    <p>@item.name @item.licenseno</p>;
 }
 
 @code {
@@ -351,13 +363,70 @@
     private string Ovst_key = "9564AB24894CF188CC14EB2D81857600";
     private string Vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH"));
     private string doctor;
-    private List<Doctor> Doctors;
+    private List<Doctor> doctors = new();
+
+    private string hospmain;
+    private List<HosName> hosnames = new();
+
+    private string hospsub;
+    private List<HosName> hossubnames = new();
     
-
-
-    protected override async Task OnInitializedAsync()
-    {  
-        Doctors = await Http.GetFromJsonAsync<List<Doctor>>("http://localhost:5094/api/Hos/GetDoctor");
+    
+    private async Task OnInputDoctor(ChangeEventArgs e)
+    {
+        doctor = e.Value?.ToString();
+        doctors = await GetItemsAsync(doctor);
     }
+
+    private async Task OnInputHospmain(ChangeEventArgs e)
+    {
+        hospmain = e.Value?.ToString();
+        hosnames = await GetHosNamesAsync(hospmain);
+    }
+
+    private async Task OnInputSubHos(ChangeEventArgs e)
+    {
+        hospsub = e.Value?.ToString();
+        hossubnames = await GetHosNamesAsync(hospsub);
+    }
+
+     private async Task<List<Doctor>> GetItemsAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetDoctorBySearchName?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Doctor>>();
+    }
+
+    private async Task<List<HosName>> GetHosNamesAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetHospitalSearchName?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<HosName>>();
+    }
+
+
+    private void SelectItem(Doctor person)
+    {
+        doctor = person.name;
+        doctors.Clear();
+    }
+
+    private void SelectMainHos(HosName mainhos)
+    {
+        hospmain = mainhos.name;
+        hosnames.Clear();
+    }
+
+    private void SelectSubHos(HosName subhos)
+    {
+        hospsub = subhos.name;
+        hossubnames.Clear();
+    }
+
+
+
+
 
 }

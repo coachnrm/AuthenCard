@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "/SDCRUoeVQb3/+yJsCf1NmPcrdy5Rds2h/hJsTlKEmU=",
+  "Hash": "4QSxVk/n0i2MJV5scGxG18LCnyQciFrDLWi3S+osxgw=",
   "Source": "AuthenCard",
   "BasePath": "_content/AuthenCard",
   "Mode": "Default",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\blazored-typeahead.css",
+      "SourceId": "Blazored.Typeahead",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\",
+      "BasePath": "_content/Blazored.Typeahead",
+      "RelativePath": "blazored-typeahead.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\blazored-typeahead.css"
+    },
+    {
+      "Identity": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\blazored-typeahead.js",
+      "SourceId": "Blazored.Typeahead",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\",
+      "BasePath": "_content/Blazored.Typeahead",
+      "RelativePath": "blazored-typeahead.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\HP\\.nuget\\packages\\blazored.typeahead\\4.7.0\\staticwebassets\\blazored-typeahead.js"
+    },
     {
       "Identity": "D:\\AuthenCard\\obj\\Debug\\net8.0\\scopedcss\\bundle\\AuthenCard.styles.css",
       "SourceId": "AuthenCard",

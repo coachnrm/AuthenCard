@@ -1,0 +1,39 @@
+@page "/getonedoctor"
+@rendermode InteractiveServer
+@inject HttpClient Http
+@using AuthenCard.Models
+
+@inject HttpClient Http
+
+<input @bind="searchTerm" @oninput="OnInput" placeholder="Search..." />
+<ul>
+    @foreach (var item in items)
+    {
+        <li @onclick="() => SelectItem(item)">@item.name</li>
+    }
+</ul>
+
+@code {
+    private string searchTerm;
+    private List<Doctor> items = new();
+
+    private async Task OnInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString();
+        items = await GetItemsAsync(searchTerm);
+    }
+
+    private async Task<List<Doctor>> GetItemsAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetDoctorBySearchName?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Doctor>>();
+    }
+
+    private void SelectItem(Doctor item)
+    {
+        searchTerm = item.name;
+        items.Clear();
+    }
+}
