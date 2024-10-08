@@ -1,0 +1,23 @@
+@page "/getspcltyall"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+@foreach (var item in spclties)
+{
+    <p>@item.spclty1 @item.name</p>;
+}
+
+@code {
+    private string spclty;
+    private List<Spclty> spclties = new List<Spclty>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        spclties = await Http.GetFromJsonAsync<List<Spclty>>("http://localhost:5094/api/Hos/GetSpcltyAll");
+    }
+
+
+
+}

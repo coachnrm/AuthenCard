@@ -69,7 +69,6 @@
         {
             <p @onclick="() => SelectItem(person)">@person.code @person.name</p>
         }
-        <a href="/getalldoctor" target="_blank">ดูรายชื่อแพทย์ทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -106,6 +105,7 @@
         {
             <p @onclick="() => SelectOvstist(item)">@item.ovstist1 @item.name</p>
         }
+        <a href="/getovstistall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -116,12 +116,18 @@
         {
             <p @onclick="() => SelectOvstost(item)">@item.ovstost1 @item.name</p>
         }
+        <a href="/getovstostall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
     <label>
         Pttype: 
-        <input style="width: 350px;"/>
+        <input @bind="pttype" @oninput="OnInputPttype" placeholder="กรุณากรอกสิทธิ์การรักษาคนไข้" style="width: 350px;"/>
+        @foreach (var item in pttypes)
+        {
+            <p @onclick="() => SelectPttype(item)">@item.pttype1 @item.name</p>
+        }
+        <a href="/getpttypeall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -157,7 +163,12 @@
 <p>
     <label>
         Spclty: 
-        <input style="width: 350px;"/>
+        <input @bind="spclty" @oninput="OnInputSpclty" placeholder="กรุณากรอกแผนกปลายทางที่เปิดตรวจ" style="width: 350px;"/>
+        @foreach (var item in spclties)
+        {
+            <p @onclick="() => SelectSpclty(item)">@item.spclty1 @item.name</p>
+        }
+        <a href="/getspcltyall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -169,13 +180,18 @@
 <p>
     <label>
         Hcode: 
-        <input style="width: 350px;"/>
+        <input @bind="hcode" style="width: 350px;"/>
     </label>
 </p>
 <p>
     <label>
         CurDep: 
-        <input style="width: 350px;"/>
+        <input @bind="curDep" @oninput="OnInputOpddep" placeholder="กรุณากรอกห้องตรวจที่เปิดตรวจ" style="width: 350px;"/>
+        @foreach (var item in curDeps)
+        {
+            <p @onclick="() => SelectOpddep(item)">@item.depcode @item.department</p>
+        }
+        <a href="/getopddepall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -187,7 +203,12 @@
 <p>
     <label>
         LastDep: 
-        <input style="width: 350px;"/>
+        <input @bind="lastDep" @oninput="OnInputOpddeplast" placeholder="กรุณากรอกห้องตรวจที่่ตรวจเสร็จแล้ว" style="width: 350px;"/>
+        @foreach (var item in lastDeps)
+        {
+            <p @onclick="() => SelectOpddeplast(item)">@item.depcode @item.department</p>
+        }
+        <a href="/getopddepall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
 <p>
@@ -390,6 +411,18 @@
     private string ovstost;
     private List<Ovstost> ovstosts = new();
 
+    private string pttype;
+    private List<Pttype> pttypes = new();
+
+    private string spclty;
+    private List<Spclty> spclties = new();
+    private string hcode = "10734";
+    private string curDep;
+    private List<Opddep> curDeps = new();
+
+    private string lastDep;
+    private List<Opddep> lastDeps = new();
+
     
     private async Task OnInputDoctor(ChangeEventArgs e)
     {
@@ -421,15 +454,29 @@
         ovstosts = await GetOvstostAsync(ovstost);
     }
 
-     @* private async Task LoadDoctorData()
-    {  
-        doctors = await Http.GetFromJsonAsync<List<Doctor>>("http://localhost:5094/api/Hos/GetDoctor");
+    private async Task OnInputPttype(ChangeEventArgs e)
+    {
+        pttype = e.Value?.ToString();
+        pttypes = await GetPttypeAsync(pttype);
     }
 
-    private void ClearDoctorData()
+    private async Task OnInputSpclty(ChangeEventArgs e)
     {
-        doctors = null;
-    } *@
+        spclty = e.Value?.ToString();
+        spclties = await GetSpcltyAsync(spclty);
+    }
+
+    private async Task OnInputOpddep(ChangeEventArgs e)
+    {
+        curDep = e.Value?.ToString();
+        curDeps = await GetOpdDepAsync(curDep);
+    }
+
+    private async Task OnInputOpddeplast(ChangeEventArgs e)
+    {
+        lastDep = e.Value?.ToString();
+        lastDeps = await GetOpdDepAsync(lastDep);
+    }
 
      private async Task<List<Doctor>> GetItemsAsync(string query)
     {
@@ -463,6 +510,32 @@
         return await response.Content.ReadFromJsonAsync<List<Ovstost>>();
     }
 
+    private async Task<List<Pttype>> GetPttypeAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetPttype?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Pttype>>();
+    }
+
+     private async Task<List<Spclty>> GetSpcltyAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetSpclty?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Spclty>>();
+    }
+
+     private async Task<List<Opddep>> GetOpdDepAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetOpdDep?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Opddep>>();
+    }
+
+
+
 
     private void SelectItem(Doctor person)
     {
@@ -492,6 +565,32 @@
         ovstost = item.ovstost1;
         ovstosts.Clear();
     }
+
+    private void SelectPttype(Pttype item)
+    {
+        pttype = item.pttype1;
+        pttypes.Clear();
+    }
+
+    private void SelectSpclty(Spclty item)
+    {
+        spclty = item.spclty1;
+        spclties.Clear();
+    }
+
+    private void SelectOpddep(Opddep item)
+    {
+        curDep = item.depcode;
+        curDeps.Clear();
+    }
+
+    private void SelectOpddeplast(Opddep item)
+    {
+        lastDep = item.depcode;
+        lastDeps.Clear();
+    }
+
+
 
     
 
