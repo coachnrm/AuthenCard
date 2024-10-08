@@ -4,5 +4,7 @@ namespace AuthenCard.Models
     {
         public string name { get; set; }
         public string licenseno { get; set; }
+
+        public string code {get; set;}
     }
 }
