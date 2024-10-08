@@ -6,6 +6,7 @@
 
 <PageTitle>หน้าจอเปิด visit</PageTitle>
 
+
 <h1>หน้าจอเปิด visit</h1>
 
 <p>
@@ -56,34 +57,38 @@
         <input style="width: 350px;"/>
     </label>
 </p>
-
 <p>
     <label>
-        แพทย์: 
-        <input @bind="doctor" @oninput="OnInputDoctor" placeholder="กรุณากรอกชื่อแพทย์" style="width: 350px;"/>
         @foreach (var person in doctors)
         {
-            <p @onclick="() => SelectItem(person)">@person.name</p>
+            <p>@person.code @person.name</p>
         }
+        แพทย์: 
+        <input @bind="doctor" @oninput="OnInputDoctor" placeholder="กรุณากรอกชื่อแพทย์หรือเลข ว." style="width: 350px;"/>
+        @foreach (var person in doctors)
+        {
+            <p @onclick="() => SelectItem(person)">@person.code @person.name</p>
+        }
+        <a href="/getalldoctor" target="_blank">ดูรายชื่อแพทย์ทั้งหมด</a>
     </label>
 </p>
 <p>
     <label>
         สถานพยาบาล: 
-        <input @bind="hospmain" @oninput="OnInputHospmain" placeholder="กรุณากรอกชื่อสถานพยาบาลหลัก" style="width: 350px;"/>
+        <input @bind="hospmain" @oninput="OnInputHospmain" placeholder="กรุณากรอกชื่อหรือเลขรหัสสถานพยาบาลหลัก" style="width: 350px;"/>
         @foreach (var mainhos in hosnames)
         {
-            <p @onclick="() => SelectMainHos(mainhos)">@mainhos.name</p>
+            <p @onclick="() => SelectMainHos(mainhos)">@mainhos.hospcode1 @mainhos.name</p>
         }
     </label>
 </p>
 <p>
     <label>
         สถานพยาบาลรอง: 
-        <input @bind="hospsub" @oninput="OnInputSubHos" placeholder="กรุณากรอกชื่อสถานพยาบาลหลัก" style="width: 350px;"/>
+        <input @bind="hospsub" @oninput="OnInputSubHos" placeholder="กรุณากรอกชื่อหรือเลขรหัสสถานพยาบาลรอง" style="width: 350px;"/>
         @foreach (var subhos in hossubnames)
         {
-            <p @onclick="() => SelectSubHos(subhos)">@subhos.name</p>
+            <p @onclick="() => SelectSubHos(subhos)">@subhos.hospcode1 @subhos.name</p>
         }
     </label>
 </p>
@@ -106,7 +111,11 @@
 <p>
     <label>
         Ovstost: 
-        <input style="width: 350px;"/>
+        <input @bind="ovstost" @oninput="OnInputOvstost" placeholder="กรุณากรอกชื่อประเภทแสดงปลายทาง"style="width: 350px;"/>
+        @foreach (var item in ovstosts)
+        {
+            <p @onclick="() => SelectOvstost(item)">@item.ovstost1 @item.name</p>
+        }
     </label>
 </p>
 <p>
@@ -377,7 +386,10 @@
 
     private string ovstist;
     private List<Ovstist> ovstists = new();
-    
+
+    private string ovstost;
+    private List<Ovstost> ovstosts = new();
+
     
     private async Task OnInputDoctor(ChangeEventArgs e)
     {
@@ -403,6 +415,22 @@
         ovstists = await GetOvstistAsync(ovstist);
     }
 
+    private async Task OnInputOvstost(ChangeEventArgs e)
+    {
+        ovstost = e.Value?.ToString();
+        ovstosts = await GetOvstostAsync(ovstost);
+    }
+
+     @* private async Task LoadDoctorData()
+    {  
+        doctors = await Http.GetFromJsonAsync<List<Doctor>>("http://localhost:5094/api/Hos/GetDoctor");
+    }
+
+    private void ClearDoctorData()
+    {
+        doctors = null;
+    } *@
+
      private async Task<List<Doctor>> GetItemsAsync(string query)
     {
         var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetDoctorBySearchName?name={query}");
@@ -427,28 +455,42 @@
         return await response.Content.ReadFromJsonAsync<List<Ovstist>>();
     }
 
+    private async Task<List<Ovstost>> GetOvstostAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetOvstost?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Ovstost>>();
+    }
+
 
     private void SelectItem(Doctor person)
     {
-        doctor = person.name;
+        doctor = person.code;
         doctors.Clear();
     }
 
     private void SelectMainHos(HosName mainhos)
     {
-        hospmain = mainhos.name;
+        hospmain = mainhos.hospcode1;
         hosnames.Clear();
     }
 
     private void SelectSubHos(HosName subhos)
     {
-        hospsub = subhos.name;
+        hospsub = subhos.hospcode1;
         hossubnames.Clear();
     }
     private void SelectOvstist(Ovstist item)
     {
         ovstist = item.ovstist1;
-        hossubnames.Clear();
+        ovstists.Clear();
+    }
+
+    private void SelectOvstost(Ovstost item)
+    {
+        ovstost = item.ovstost1;
+        ovstosts.Clear();
     }
 
     
