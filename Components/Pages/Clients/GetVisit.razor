@@ -1,39 +1,44 @@
 @page "/getvisit"
 @rendermode InteractiveServer
 @using System.Globalization
+@using AuthenCard.Dtos
 @using AuthenCard.Models
+@using System.Text.Json.Nodes
 @inject HttpClient Http
+@inject NavigationManager navManager
+@using AuthenCard.Controller
 
 <PageTitle>หน้าจอเปิด visit</PageTitle>
 
 
 <h1>หน้าจอเปิด visit</h1>
 
-<p>
+@* <p>
     <label>
         HosGuid: 
-        <input @bind="HosGuid" style="width: 350px;" disabled/>
+        <input @bind="ClientData.hosGuid" style="width: 350px;" />
+        <input @bind="hosGuid" style="width: 350px;" disabled/>
     </label>
-</p>
+</p> *@
 
-<p>
+@* <p>
     <label>
         Vn: 
-        <input @bind="Vn" style="width: 350px;" disabled/>
+        <input @bind="ClientData.vn" style="width: 350px;" />
     </label>
-</p>
+</p> *@
 
-<p>
+@* <p>
     <label>
         Ovst_key: 
-        <input @bind="Ovst_key" style="width: 350px;" disabled/>
+        <input @bind="ClientData.ovstKey" style="width: 350px;" disabled/>
     </label>
-</p>
+</p> *@
 
 <p>
     <label>
         HN: 
-        <input style="width: 350px;"/>
+        <input type="text" class="form-control" @bind="hn" style="width: 350px;"/>
     </label>
 </p>
 
@@ -47,22 +52,18 @@
 <p>
     <label>
         vstdate: 
-        <input style="width: 350px;"/>
+        <input @bind="vstdate" style="width: 350px;"/>
     </label>
 </p>
 
 <p>
     <label>
         vsttime: 
-        <input style="width: 350px;"/>
+        <input @bind="vsttime" style="width: 350px;"/>
     </label>
 </p>
 <p>
     <label>
-        @foreach (var person in doctors)
-        {
-            <p>@person.code @person.name</p>
-        }
         แพทย์: 
         <input @bind="doctor" @oninput="OnInputDoctor" placeholder="กรุณากรอกชื่อแพทย์หรือเลข ว." style="width: 350px;"/>
         @foreach (var person in doctors)
@@ -180,7 +181,7 @@
 <p>
     <label>
         Hcode: 
-        <input @bind="hcode" style="width: 350px;"/>
+        <input type="text" class="form-control" @bind="hcode" style="width: 350px;"/>
     </label>
 </p>
 <p>
@@ -391,16 +392,89 @@
     </label>
 </p>
 
-@foreach (var item in doctors)
+<div class="offset-md-4 col-md-4 d-grid">
+    <button class="btn btn-primary" @onclick="SaveClient">Submit</button>
+</div>
+
+@if (loadFailed = false)
 {
-    <p>@item.name @item.licenseno</p>;
+    <p>ท่านเปิด visit สำเร็จ</p>
+}
+else
+{
+    <p>ท่านยังไม่ได้เปิด visit สำเร็จ</p>
 }
 
 @code {
+    bool loadFailed = true;
+    
+    @* public ClientDto ClientData {get; set;} = new();  *@
+    public ClientDto ClientData = new ClientDto();
+    @* {
+        @* hosGuid = "",
+        vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH")), *
+        hn = "0022000",
+         an = null,
+        vstdate = null,
+        vsttime = null,
+        doctor = null,
+        hospmain = null,
+        hospsub = null,
+        oqueue = 0,
+        ovstist = null,
+        ovstost = null,
+        pttype = null,
+        pttypeno = null, 
+        rfrics = null,
+        rfrocs = null,
+        rfrolct = null,
+        spclty = null,
+        rcptDisease = null,
+        hcode = null,
+        curDep = null, 
+        curDepBusy = null,
+        lastDep = null,
+        curDepTime = null,
+        rxQueue = null,
+        diagText = null,
+        ptSubtype = 0,
+        mainDep = null,
+        mainDepQueue = 0,
+        financeSummaryDate = null,
+        visitType = null,
+        nodeId = null,
+        contractId = null,
+        waiting = null,
+        rfriIcd10 = null,
+        oReferNumber = null,
+        hasInsurance = null,
+        iReferNumber = null,
+        referType = null,
+        oReferDep = null,
+        staff = null,
+        commandDoctor = null,
+        sendPerson = null, 
+        ptPriority = 0,
+        financeLock = null,
+        financeAlient = null,
+        oldcode = null,
+        signDoctor = null,
+        anonymousVisit = null,
+        anonymousVn = null,
+        ptCapabilityTypeId = null,
+        atHospital = null,
+        ovstKey = "9564AB24894CF188CC14EB2D81857600" 
+    }; *@
 
-    private string HosGuid = "{"+Guid.NewGuid().ToString()+"}";
-    private string Ovst_key = "9564AB24894CF188CC14EB2D81857600";
-    private string Vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH"));
+    @* public JsonNode Errors { set; get; } = new JsonObject(); *@
+    
+
+    private string hosGuid = "{"+Guid.NewGuid().ToString()+"}";
+    private string ovstKey = "9564AB24894CF188CC14EB2D81857600";
+    private string hn;
+    private string vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH"));
+    private string vstdate = DateTime.Now.ToString("yyyy-MM-dd", new CultureInfo("en-EN"));
+    private string vsttime = DateTime.Now.ToString("HH:mm:ss", new CultureInfo("en-EN"));
     private string doctor;
     private List<Doctor> doctors = new();
 
@@ -614,11 +688,50 @@
         mainDeps.Clear();
     }
 
+    private async Task SaveClient()
+    {
+        @* var response = await Http.PostAsJsonAsync("http://localhost:5094/api/Hos/Openvisit", ClientData);
 
+        if (response.IsSuccessStatusCode)
+        {
+            navManager.NavigateTo("/");
+        }
+        else
+        {
+            var strResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Json Response: \n" + strResponse);
 
-    
+            try
+            {
+                var jsonResponse = JsonNode.Parse(strResponse);
+                Errors = jsonResponse?["errors"] ?? new JsonObject();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception : " + ex.Message);
+            }
+        } *@
 
-
-
+        var request = await ServiceHelper2.PostOpenVisit(hn, hcode, doctor, hospmain, hospsub);
+        try
+        {
+            if (request != null)
+            {
+                loadFailed = false;
+            }
+            else if (request == null)
+            {
+                loadFailed = true;
+            }
+            else
+            {
+               loadFailed = false;
+            }
+        }
+        catch (Exception e)
+        {
+            loadFailed = true;
+        } 
+    }
 
 }

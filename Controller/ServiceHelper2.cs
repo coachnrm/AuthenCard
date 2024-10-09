@@ -1,4 +1,6 @@
 using AuthenCard.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -42,6 +44,27 @@ namespace AuthenCard.Controller
                 return JObject.Parse(json).ToObject<LoginHos>();
            }
            else return null;
+        }
+
+        public async static Task<Ovst> PostOpenVisit(string hn, string hcode, string doctor, string hospmain, string hospsub)
+        {
+            var param = new Dictionary<string, string>();
+            param.Add("hn", hn);
+            param.Add("hcode", hcode);
+            param.Add("doctor", doctor);
+            param.Add("hospmain", hospmain);
+            param.Add("hospsub", hospsub);
+
+            var content = new FormUrlEncodedContent(param);
+
+            var clientData = GetClientData();
+            var response = await clientData.PostAsync("api/Hos/OpenVisit", content);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JObject.Parse(json).ToObject<Ovst>();
+            }
+            else return null;
         }
 
          private static HttpClient GetClientData()
