@@ -1,0 +1,23 @@
+@page "/getovstistall"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+@foreach (var item in ovstists)
+{
+    <p>@item.ovstist1 @item.name</p>;
+}
+
+@code {
+    private string ovstist;
+    private List<Ovstist> ovstists = new List<Ovstist>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        ovstists = await Http.GetFromJsonAsync<List<Ovstist>>("http://localhost:5094/api/Hos/GetOvstistAll");
+    }
+
+
+
+}

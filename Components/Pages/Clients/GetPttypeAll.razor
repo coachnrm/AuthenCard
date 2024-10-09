@@ -1,0 +1,23 @@
+@page "/getpttypeall"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+@foreach (var item in pttypes)
+{
+    <p>@item.pttype1 @item.name</p>;
+}
+
+@code {
+    private string pttype;
+    private List<Pttype> pttypes = new List<Pttype>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        pttypes = await Http.GetFromJsonAsync<List<Pttype>>("http://localhost:5094/api/Hos/GetPttypeAll");
+    }
+
+
+
+}

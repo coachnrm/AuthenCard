@@ -34,6 +34,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldE9uZURvY3Rvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/AuthenCard/Components/Pages/Clients/GetOpddepAll.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldE9wZGRlcEFsbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/AuthenCard/Components/Pages/Clients/GetOvstistAll.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldE92c3Rpc3RBbGwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/AuthenCard/Components/Pages/Clients/GetOvstostAll.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldE92c3Rvc3RBbGwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/AuthenCard/Components/Pages/Clients/GetPttypeAll.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldFB0dHlwZUFsbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/AuthenCard/Components/Pages/Clients/GetSpcltyAll.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldFNwY2x0eUFsbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/AuthenCard/Components/Pages/Clients/GetVisit.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldFZpc2l0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 

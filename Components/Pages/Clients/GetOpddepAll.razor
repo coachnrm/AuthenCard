@@ -1,0 +1,23 @@
+@page "/getopddepall"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+@foreach (var item in opddeps)
+{
+    <p>@item.depcode @item.department</p>;
+}
+
+@code {
+    private string opddep;
+    private List<Opddep> opddeps = new List<Opddep>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        opddeps = await Http.GetFromJsonAsync<List<Opddep>>("http://localhost:5094/api/Hos/GetOpdDepAll");
+    }
+
+
+
+}
