@@ -26,6 +26,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXENpZENsYWltLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Admin/Desktop/AuthenCard/Components/Pages/Clients/EditVisit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEVkaXRWaXNpdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Admin/Desktop/AuthenCard/Components/Pages/Clients/GetAllDoctor.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDbGllbnRzXEdldEFsbERvY3Rvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
