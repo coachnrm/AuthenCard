@@ -38,18 +38,18 @@
 <p>
     <label>
         HN: 
-        <input type="text" class="form-control" @bind="hn" style="width: 350px;"/>
+        <input type="text" @bind="hn" style="width: 350px;"/>
     </label>
 </p>
 
-<p>
+@* <p>
     <label>
         AN: 
         <input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 
-<p>
+@* <p>
     <label>
         vstdate: 
         <input @bind="vstdate" style="width: 350px;"/>
@@ -61,7 +61,7 @@
         vsttime: 
         <input @bind="vsttime" style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
         แพทย์: 
@@ -92,15 +92,15 @@
         }
     </label>
 </p>
-<p>
+@* <p>
     <label>
         Oqueue: 
         <input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
-        Ovstist: 
+        ประเภทการมา: 
         <input @bind="ovstist" @oninput="OnInputOvstist" placeholder="กรุณากรอกชื่อประเภทการมา opd case" style="width: 350px;"/>
         @foreach (var item in ovstists)
         {
@@ -122,7 +122,7 @@
 </p>
 <p>
     <label>
-        Pttype: 
+        สิทธิการรักษา: 
         <input @bind="pttype" @oninput="OnInputPttype" placeholder="กรุณากรอกสิทธิ์การรักษาคนไข้" style="width: 350px;"/>
         @foreach (var item in pttypes)
         {
@@ -131,7 +131,7 @@
         <a href="/getpttypeall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
-<p>
+@* <p>
     <label>
         Pttypeno: 
         <input style="width: 350px;"/>
@@ -160,10 +160,10 @@
         Rfrolct: 
         <input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
-        Spclty: 
+        ส่งต่อไปแผนก: 
         <input @bind="spclty" @oninput="OnInputSpclty" placeholder="กรุณากรอกแผนกปลายทางที่เปิดตรวจ" style="width: 350px;"/>
         @foreach (var item in spclties)
         {
@@ -172,7 +172,7 @@
         <a href="/getspcltyall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
-<p>
+@* <p>
     <label>
         RcptDisease: 
         <input style="width: 350px;"/>
@@ -181,12 +181,12 @@
 <p>
     <label>
         Hcode: 
-        <input type="text" class="form-control" @bind="hcode" style="width: 350px;"/>
+        <input type="text" @bind="hcode" style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
-        CurDep: 
+        ส่งต่อไปห้อง: 
         <input @bind="curDep" @oninput="OnInputOpddep" placeholder="กรุณากรอกห้องตรวจที่เปิดตรวจ" style="width: 350px;"/>
         @foreach (var item in curDeps)
         {
@@ -195,12 +195,12 @@
         <a href="/getopddepall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
-<p>
+@* <p>
     <label>
         CurDepBusy: 
         <input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
         LastDep: 
@@ -212,7 +212,7 @@
         <a href="/getopddepall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
-<p>
+@* <p>
     <label>
         CurDepTime: 
         <input style="width: 350px;"/>
@@ -235,7 +235,7 @@
         PtSubtype: 
         <input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 <p>
     <label>
         MainDep: 
@@ -247,7 +247,7 @@
         <a href="/getopddepall" target="_blank">ดูทั้งหมด</a>
     </label>
 </p>
-<p>
+@* <p>
     <label>
         MainDepQueue: 
         <input style="width: 350px;"/>
@@ -276,14 +276,14 @@
         ContractId: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         Waiting: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         RfriIcd10: 
         <input style="width: 350px;"/>
@@ -318,14 +318,14 @@
         OReferDep: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         Staff: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         CommandDoctor: 
         <input style="width: 350px;"/>
@@ -336,14 +336,14 @@
         SendPerson: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         PtPriority: 
         <input style="width: 350px;"/>
     </label>
-</p>
-<p>
+</p> *@
+@* <p>
     <label>
         FinanceLock: 
         <input style="width: 350px;"/>
@@ -390,19 +390,19 @@
         AtHospital: 
         <Input style="width: 350px;"/>
     </label>
-</p>
+</p> *@
 
 <div class="offset-md-4 col-md-4 d-grid">
     <button class="btn btn-primary" @onclick="SaveClient">Submit</button>
 </div>
 
-@if (loadFailed = false)
+@if (loadFailed)
 {
-    <p>ท่านเปิด visit สำเร็จ</p>
+    <p>ท่านเปิด visit ไม่สำเร็จ</p>
 }
 else
 {
-    <p>ท่านยังไม่ได้เปิด visit สำเร็จ</p>
+    <p>ท่านเปิด visit สำเร็จ</p>
 }
 
 @code {
@@ -471,40 +471,40 @@ else
 
     private string hosGuid = "{"+Guid.NewGuid().ToString()+"}";
     private string ovstKey = "9564AB24894CF188CC14EB2D81857600";
-    private string hn;
+    private string hn = string.Empty;
     private string vn = DateTime.Now.ToString("yyMMddHHmmss", new CultureInfo("th-TH"));
     private string vstdate = DateTime.Now.ToString("yyyy-MM-dd", new CultureInfo("en-EN"));
     private string vsttime = DateTime.Now.ToString("HH:mm:ss", new CultureInfo("en-EN"));
-    private string doctor;
+    private string doctor = string.Empty;
     private List<Doctor> doctors = new();
 
-    private string hospmain;
+    private string hospmain = string.Empty;
     private List<HosName> hosnames = new();
 
-    private string hospsub;
+    private string hospsub = string.Empty;
     private List<HosName> hossubnames = new();
 
-    private string ovstist;
+    private string ovstist = string.Empty;
     private List<Ovstist> ovstists = new();
 
-    private string ovstost;
+    private string ovstost = string.Empty;
     private List<Ovstost> ovstosts = new();
 
-    private string pttype;
+    private string pttype = string.Empty;
     private List<Pttype> pttypes = new();
 
-    private string spclty;
+    private string spclty = string.Empty;
     private List<Spclty> spclties = new();
-    private string hcode = "10734";
-    private string curDep;
+    private string hcode = string.Empty;
+    private string curDep = string.Empty;
     private List<Opddep> curDeps = new();
     private string CurDepBusy = "N";
 
-    private string lastDep;
+    private string lastDep = string.Empty;
     private List<Opddep> lastDeps = new();
     private string ptSubtype = "0"; 
 
-    private string mainDep;
+    private string mainDep = string.Empty;
     private List<Opddep> mainDeps = new();
     private string visitType = "I";
     private string Waiting = "Y";
@@ -713,12 +713,24 @@ else
             }
         } *@
 
-        var request = await ServiceHelper2.PostOpenVisit(hn, hcode, doctor, hospmain, hospsub);
+        var request = await ServiceHelper2.PostOpenVisit(hn, hcode, doctor, hospmain, hospsub, ovstist, ovstost, pttype, spclty, lastDep, mainDep);
         try
         {
             if (request != null)
             {
                 loadFailed = false;
+                hn = string.Empty;
+                doctor = string.Empty;
+                hospmain = string.Empty;
+                hospsub = string.Empty;
+                ovstist = string.Empty;
+                ovstost = string.Empty;
+                pttype = string.Empty;
+                spclty = string.Empty;
+                hcode = string.Empty;
+                curDep = string.Empty;
+                lastDep = string.Empty;
+                mainDep = string.Empty;
             }
             else if (request == null)
             {
@@ -726,7 +738,7 @@ else
             }
             else
             {
-               loadFailed = false;
+               loadFailed = true;
             }
         }
         catch (Exception e)

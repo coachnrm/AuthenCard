@@ -1,0 +1,217 @@
+@page "/getvisit/{hosguid}"
+@using AuthenCard.Dtos
+@using AuthenCard.Models
+@using System.Text.Json.Nodes
+@inject HttpClient http
+@inject NavigationManager navManager
+@rendermode InteractiveServer
+
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="mb-5">Edit Client</h1>
+
+        @if (client == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">HosGuid</label>
+                <div class="col-md-8">
+                    <input class="form-control-plaintext" value="@hosguid" readonly>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">HN</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.hn">
+                    <span class="text-danger">@Errors["hn"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">แพทย์</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.doctor">
+                    <span class="text-danger">@Errors["doctor"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">สถานพยาบาล</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.hospmain">
+                    <span class="text-danger">@Errors["hospmain"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">สถานพยาบาลรอง</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.hospsub">
+                    <span class="text-danger">@Errors["hospsub"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">ประเภทการมา</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.ovstist">
+                    <span class="text-danger">@Errors["ovstist"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">Ovstost</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.ovstost">
+                    <span class="text-danger">@Errors["ovstost"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">สิทธิการรักษา</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.pttype">
+                    <span class="text-danger">@Errors["pttype"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">ส่งต่อไปแผนก</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.spclty">
+                    <span class="text-danger">@Errors["spclty"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">ส่งต่อไปห้อง</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.curDep">
+                    <span class="text-danger">@Errors["curDep"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">LastDep</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.lastDep">
+                    <span class="text-danger">@Errors["lastDep"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-md-4 col-form-label">MainDep</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.mainDep">
+                    <span class="text-danger">@Errors["mainDep"]?[0]</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-md-4 col-md-4 d-grid">
+                    <button class="btn btn-primary" @onclick="SaveClient">Submit</button>
+                </div>
+                <div class="col-md-4 d-grid">
+                    <a class="btn btn-outline-primary" href="/getvisit">Cancel</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string hosguid {get; set;}
+    public Ovst? client = null;
+    public ClientDto ClientData {set; get;} = new();
+    public JsonNode Errors {set; get; } = new JsonObject();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            client = await http.GetFromJsonAsync<Ovst>("http://localhost:5094/api/Hos/GetOvstByHg2/" + hosguid);
+            ClientData.hn = client?.hn ?? "";
+            ClientData.vn = client?.vn ?? "";
+            ClientData.an = client?.an ?? "";
+            ClientData.vstdate = client?.vstdate ?? "";
+            ClientData.vsttime = client?.vsttime ?? "";
+            ClientData.doctor = client?.doctor ?? "";    
+            ClientData.hospmain = client?.hospmain ?? "";
+            ClientData.hospsub = client?.hospsub ?? "";
+            ClientData.oqueue = client?.oqueue;
+            ClientData.ovstist = client?.ovstist ?? "";
+            ClientData.ovstost = client?.ovstost ?? "";
+            ClientData.pttype = client?.pttype ?? "";
+            ClientData.pttypeno = client?.pttypeno ?? "";
+            ClientData.rfrics = client?.rfrics ?? "";
+            ClientData.rfrilct = client?.rfrilct ?? "";
+            ClientData.spclty = client?.spclty ?? "";
+            ClientData.rcptDisease = client?.rcptDisease ?? "";
+            ClientData.hcode = client?.hcode ?? "";
+            ClientData.curDep = client?.curDep ?? "";
+            ClientData.curDepBusy = client?.curDepBusy ?? "";
+            ClientData.lastDep = client?.lastDep ?? "";
+            ClientData.curDepTime = client?.curDepTime ?? "";
+            ClientData.rxQueue = client?.rxQueue ?? "";
+            ClientData.diagText = client?.diagText ?? "";
+            ClientData.ptSubtype = client?.ptSubtype ?? 0;
+            ClientData.mainDep = client?.mainDep ?? "";
+            ClientData.mainDepQueue = client?.mainDepQueue ?? 0;
+            ClientData.financeSummaryDate = client?.financeSummaryDate ?? "";
+            ClientData.visitType = client?.visitType ?? "";
+            ClientData.nodeId = client?.nodeId ?? "";
+            ClientData.contractId = client?.contractId ?? "";
+            ClientData.waiting = client?.waiting ?? "";
+            ClientData.rfriIcd10 = client?.rfriIcd10 ?? "";
+            ClientData.oReferNumber = client?.oReferNumber ?? "";
+            ClientData.hasInsurance = client?.hasInsurance ?? "";
+            ClientData.iReferNumber = client?.iReferNumber ?? "";
+            ClientData.referType = client?.referType ?? "";
+            ClientData.oReferDep = client?.oReferDep ?? "";
+            ClientData.staff = client?.staff ?? "";
+            ClientData.commandDoctor = client?.commandDoctor ?? "";
+            ClientData.sendPerson = client?.sendPerson ?? "";
+            ClientData.ptPriority = client?.ptPriority ?? 0;
+            ClientData.financeLock = client?.financeLock ?? "";
+            ClientData.financeAlient = client?.financeAlient ?? "";
+            ClientData.oldcode = client?.oldcode ?? "";
+            ClientData.signDoctor = client?.signDoctor ?? "";
+            ClientData.anonymousVisit = client?.anonymousVisit ?? "";
+            ClientData.anonymousVn = client?.anonymousVn ?? "";
+            ClientData.ptCapabilityTypeId = client?.ptCapabilityTypeId ?? "";
+            ClientData.atHospital = client?.atHospital ?? "";
+            ClientData.ovstKey = client?.ovstKey ?? "";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Exception : " + ex.Message);
+        }
+    }
+
+    protected async Task SaveClient()
+        {
+            var response = await http.PutAsJsonAsync("http://localhost:5094/api/UpdateOvst/" + hosguid, ClientData);
+            if (response.IsSuccessStatusCode)
+            {
+                navManager.NavigateTo("/getvisit");
+            }
+            else
+            {
+                var strResponse = await response.Content.ReadAsStringAsync();
+                try
+                {
+                    var jsonResponse = JsonNode.Parse(strResponse);
+                    Errors = jsonResponse?["errors"] ?? new JsonObject();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception : " + ex.Message);
+                }
+            }
+        }
+}

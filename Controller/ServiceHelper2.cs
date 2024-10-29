@@ -46,7 +46,7 @@ namespace AuthenCard.Controller
            else return null;
         }
 
-        public async static Task<Ovst> PostOpenVisit(string hn, string hcode, string doctor, string hospmain, string hospsub)
+        public async static Task<Ovst> PostOpenVisit(string hn, string hcode, string doctor, string hospmain, string hospsub, string ovstist, string ovstost, string pttype, string spclty, string lastDep, string mainDep)
         {
             var param = new Dictionary<string, string>();
             param.Add("hn", hn);
@@ -54,6 +54,12 @@ namespace AuthenCard.Controller
             param.Add("doctor", doctor);
             param.Add("hospmain", hospmain);
             param.Add("hospsub", hospsub);
+            param.Add("ovstist", ovstist);
+            param.Add("ovstost", ovstost);
+            param.Add("pttype", pttype);
+            param.Add("spclty", spclty);
+            param.Add("lastDep", lastDep);
+            param.Add("mainDep", mainDep);
 
             var content = new FormUrlEncodedContent(param);
 
