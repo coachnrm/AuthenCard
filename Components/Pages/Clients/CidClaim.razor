@@ -1,8 +1,10 @@
 @page "/cidclaim"
+@using AuthenCard.Components.Shared
 @using AuthenCard.Models
 @using AuthenCard.Controller
 @using System.Net.Http.Json
 @using System.Text.Json.Nodes
+@using AuthenCard.Components.Shared
 @inject HttpClient http
 @rendermode InteractiveServer
 @inject NavigationManager navManager
@@ -13,7 +15,8 @@
    
        <div class="row">
     <div class="col-lg-8">
-        <h1 class="mb-5">New Client</h1>
+        <h1 class="mb-5">เปิด Authen คนไข้</h1>
+        <Alert @ref="alert" />
         @if(client == null)
         {
             <p>loading...</p>
@@ -70,10 +73,10 @@
 
         <div class="row">
             <div class="offset-md-4 col-md-4 d-grid">
-                <button class="btn btn-primary" @onclick="SaveClient">Submit</button>
+                <button class="btn btn-primary" @onclick="SaveClient">เปิดสิทธิ์ authen</button>
             </div>
             <div class="col-md-4 d-grid">
-                <a class="btn btn-outline-primary" href="/Clients">Cancel</a>
+                <button class="btn btn-primary" @onclick="LoadData">โหลดข้อมูลคนไข้จากบัตรใหม่</button>
             </div>
         </div>
     
@@ -90,25 +93,87 @@
     private string? InputValue {get; set;}
     public Cid cids {get; set;} = new();
     private Cid2 client = new Cid2();
-
+    //private Patient patient = new Patient();
+    private Patient2 patient = new();
     public JsonNode Errors {set; get;} = new JsonObject();
+
+    private Alert alert;
+    private string errorMessage;
+    
+    @* private async Task<List<Doctor>> GetItemsAsync(string query)
+    {
+        var response = await Http.GetAsync($"http://localhost:5094/api/Hos/GetDoctorBySearchName?name={query}");
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadFromJsonAsync<List<Doctor>>();
+    } *@
 
      protected override async Task OnInitializedAsync()
     {  
-        
-        client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
-        ClaimData.pid = client.pid;
-        ClaimData.correlationId = client.correlationId;
+        try 
+        {
+            errorMessage = null;
+            await LoadDataAsync();
+            client = await http.GetFromJsonAsync<Cid2>("http://localhost:8189/api/smartcard/read?readImageFlag=false");
+            patient = await http.GetFromJsonAsync<Patient2>("http://localhost:5094/api/Appointment/getDataAuthenObj?_cid="+ client.pid);
+            ClaimData.pid = client.pid;
+            ClaimData.correlationId = client.correlationId;
+            ClaimData.claimType = "PG0060001";
+            ClaimData.mobile = patient.hometel;
+            ClaimData.hn = patient.hn;
+            ClaimData.hcode = patient.hcode;
+        }
+         catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+        {
+            errorMessage = "An error occurred while processing your request. Please try again later.";
+            ClaimData.pid = "";
+            ClaimData.claimType = "";
+            ClaimData.mobile = "";
+            ClaimData.correlationId = "";
+            ClaimData.hn = "";
+            ClaimData.hcode = "";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+        }
+    }
+
+    private async Task LoadData()
+    {
+         await LoadDataAsync();
+        // Optionally, reload the page after loading data
+        navManager.NavigateTo("/cidclaim", forceLoad: true); // Reload the page
+    }
+
+     private async Task LoadDataAsync()
+    {
+        try
+        {
+            // Simulate data fetching
+            await Task.Delay(500); // Simulate async work
+            // Uncomment below to perform actual data fetching
+            // var data = await Http.GetFromJsonAsync<DataType>("your_api_endpoint");
+
+            errorMessage = null; // Clear any previous errors
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
     }
 
 
     protected async Task SaveClient()
     {
         var response = await http.PostAsJsonAsync("http://localhost:8189/api/nhso-service/confirm-save", ClaimData);
+        var checkClaimCode = await http.GetFromJsonAsync<ClaimCheck>($"http://localhost:8189/api/nhso-service/latest-authen-code/{client.pid}");
 
         if (response.IsSuccessStatusCode)
         {
-            navManager.NavigateTo("/");
+            //navManager.NavigateTo("/");
+            alert.ShowSuccess("เลข ClaimType ของคุณคือ " + checkClaimCode.claimCode);
+            return;
         }
         else
         {
@@ -117,12 +182,14 @@
 
             try
             {
-                var jsonResponse = JsonNode.Parse(strResponse);
-                Errors = jsonResponse?["errors"] ?? new JsonObject();
+                //var jsonResponse = JsonNode.Parse(strResponse);
+                //Errors = jsonResponse?["errors"] ?? new JsonObject();
+                alert.ShowFailed("กรุณากรอกข้อมูลให้ครบและถูกต้องตามรูปแบบ");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception : " + ex.Message);
+                //Console.WriteLine("Exception : " + ex.Message);
+                alert.ShowFailed("กรุณากรอกข้อมูลให้ครบและถูกต้องตามรูปแบบ");
             }
         }
     }
