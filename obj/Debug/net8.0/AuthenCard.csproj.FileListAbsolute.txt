@@ -60,9 +60,9 @@ D:\AuthenCard\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.s
 D:\AuthenCard\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
 D:\AuthenCard\obj\Debug\net8.0\scopedcss\bundle\AuthenCard.styles.css
 D:\AuthenCard\obj\Debug\net8.0\scopedcss\projectbundle\AuthenCard.bundle.scp.css
-D:\AuthenCard\obj\Debug\net8.0\AuthenCard.csproj.CopyComplete
 D:\AuthenCard\obj\Debug\net8.0\AuthenCard.dll
 D:\AuthenCard\obj\Debug\net8.0\refint\AuthenCard.dll
 D:\AuthenCard\obj\Debug\net8.0\AuthenCard.pdb
 D:\AuthenCard\obj\Debug\net8.0\AuthenCard.genruntimeconfig.cache
 D:\AuthenCard\obj\Debug\net8.0\ref\AuthenCard.dll
+D:\AuthenCard\obj\Debug\net8.0\AuthenCard.csproj.Up2Date

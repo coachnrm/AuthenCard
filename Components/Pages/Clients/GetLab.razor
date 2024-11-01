@@ -1,0 +1,50 @@
+@page "/getlab"
+@rendermode InteractiveServer
+@using AuthenCard.Models
+@inject HttpClient Http
+
+<table class="table">
+    <thead>
+        <th>Date</th>
+        <th>BUN</th>
+        <th>Cr</th>
+        <th>eGFR</th>
+        <th>Na</th>
+        <th>K</th>
+        <th>Cl</th>
+        <th>CO2</th>
+        <th>fbs</th>
+        <th>HbA1c</th>
+    </thead>
+    <tbody>
+        @foreach (var item in labchems)
+        {
+            <tr>
+                <td>@item.orderDate</td>
+                <td>@item.bun</td>
+                <td>@item.cr</td>
+                <td>@item.eGFR</td>
+                <td>@item.na</td>
+                <td>@item.k</td>
+                <td>@item.cl</td>
+                <td>@item.cO2</td>
+                <td>@item.fbs</td>
+                <td>@item.hbA1C</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+    private string doctor;
+    private List<LabChem> labchems = new List<LabChem>();
+
+
+    protected override async Task OnInitializedAsync()
+    {  
+        labchems = await Http.GetFromJsonAsync<List<LabChem>>("http://localhost:5094/api/Lab/getlab");
+    }
+
+}

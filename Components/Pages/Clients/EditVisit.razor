@@ -16,12 +16,20 @@
         }
         else
         {
-            <div class="row mb-3">
+            @* <div class="row mb-3">
                 <label class="col-md-4 col-form-label">HosGuid</label>
                 <div class="col-md-8">
                     <input class="form-control-plaintext" value="@hosguid" readonly>
                 </div>
-            </div>
+            </div> *@
+
+            @* <div class="row mb-3">
+                <label class="col-md-4 col-form-label">HosGuid</label>
+                <div class="col-md-8">
+                    <input class="form-control" @bind="ClientData.hosGuid" readonly>
+                    <span class="text-danger">@Errors["hosGuid"]?[0]</span>
+                </div>
+            </div> *@
 
             <div class="row mb-3">
                 <label class="col-md-4 col-form-label">HN</label>
@@ -195,7 +203,7 @@
 
     protected async Task SaveClient()
         {
-            var response = await http.PutAsJsonAsync("http://localhost:5094/api/UpdateOvst/" + hosguid, ClientData);
+            var response = await http.PutAsJsonAsync("http://localhost:5094/api/Hos/UpdateOvst/" + hosguid, ClientData);
             if (response.IsSuccessStatusCode)
             {
                 navManager.NavigateTo("/getvisit");
